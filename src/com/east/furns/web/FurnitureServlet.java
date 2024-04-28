@@ -43,7 +43,8 @@ public class FurnitureServlet extends BasicServlet {
             throws ServletException, IOException {
         int pageNo = DataUtils.parseInt(request.getParameter("pageNo"), 1);
         Furniture furniture = DataUtils.copyParametersToBean(new Furniture(), request.getParameterMap());
-        furnitureService.addFurniture(furniture);
+        boolean b = furnitureService.addFurniture(furniture);
+        System.out.println(b);
 //        response.sendRedirect(request.getContextPath() + "/manager/furnitureServlet?action=showFurnitureList");
         response.sendRedirect(request.getContextPath() +
                 "/manager/furnitureServlet?action=singlePage&pageSize=3&pageNo=" + pageNo);

@@ -28,8 +28,9 @@ public class TestFurnitureServiceImpl {
          * stock: 80
          */
 
-//        Furniture furniture = new Furniture(null, "sfsd", "fsdf", new BigDecimal("7979"), 424, 4234, "assets/images/product-image/default.jpg");
-//        furnitureService.addFurniture(furniture);
+        Furniture furniture = new Furniture(null, "sfsd", "fsdf", new BigDecimal("7979"), 424, 4234, "assets/images/product-image/default.jpg");
+        boolean b = furnitureService.addFurniture(furniture);
+        System.out.println(b);
 
         //        http://localhost:8080/mall/manager/furnitureServlet?action=deleteFurniture&id=1
 
@@ -46,10 +47,10 @@ public class TestFurnitureServiceImpl {
 //        Page<Furniture> furniturePage = furnitureService.singlePage(1, 3);
 //        System.out.println(furniturePage);
 
-        Page<Furniture> furniturePage = furnitureService.queryFurnitureByName("Name", 1, 4);
-        System.out.println(furniturePage);
-        for (Furniture item : furniturePage.getItems()) {
-            System.out.println(item);
-        }
+//        Page<Furniture> furniturePage = furnitureService.queryFurnitureByName("Name", 1, 4);
+//        System.out.println(furniturePage);
+//        for (Furniture item : furniturePage.getItems()) {
+//            System.out.println(item);
+//        }
     }
 }

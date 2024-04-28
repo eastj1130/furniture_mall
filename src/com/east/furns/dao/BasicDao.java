@@ -17,7 +17,9 @@ public class BasicDao<T> {
         Connection connection = null;
         try {
             connection = JdbcUtilsByDruid.getConnection();
-            return queryRunner.update(connection,sql,parameters);
+            int update = queryRunner.update(connection, sql, parameters);
+            JdbcUtilsByDruid.commit();
+            return update;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
