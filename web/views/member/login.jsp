@@ -64,6 +64,27 @@
             $("#codeImg").click(function (){
                 this.src="kaptchaServlet?d="+new Date();
             })
+
+
+            $("#username").blur(function (event) {
+                $.ajax({
+                    url:"memberServlet",
+                    type:"get",
+                    data:{
+                        action:"isExistsUsername",
+                        username:$(this).val()
+                    },
+                    dataType:"json",
+                    success(res){
+                        if (res) {
+                            $(".errorMsg").text("用户名以存在");
+                        }else {
+                            $(".errorMsg").text("注册用户名，请注意用户名的格式");
+                        }
+
+                    }
+                })
+            })
         })
     </script>
 </head>

@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import com.google.code.kaptcha.servlet.KaptchaServlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
@@ -77,6 +78,17 @@ public class MemberServlet extends BasicServlet {
             return;
         }
 
+
+    }
+
+    protected void isExistsUsername(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("验证用户名是否存在");
+
+        String username = request.getParameter("username");
+        boolean existsUsername = memberService.isExistsUsername(username);
+        response.setContentType("text/json;charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        writer.write(String.valueOf(existsUsername));
 
     }
 
