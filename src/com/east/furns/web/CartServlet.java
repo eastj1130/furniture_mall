@@ -7,6 +7,8 @@ import com.east.furns.pojo.Member;
 import com.east.furns.service.FurnitureService;
 import com.east.furns.service.impl.FurnitureServiceImpl;
 import com.east.furns.utils.DataUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,13 +16,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 @WebServlet("/cartServlet")
 public class CartServlet extends BasicServlet {
     FurnitureService furnitureService = new FurnitureServiceImpl();
 
     protected void addCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/json;charset=utf-8");
+        PrintWriter writer = response.getWriter();
         Cart cart = null;
         // 获取 传来的商品id
         int furnId = DataUtils.parseInt(request.getParameter("furnId"), 1);
@@ -41,10 +47,20 @@ public class CartServlet extends BasicServlet {
         // 将购物车的该条目更新
         cartItem.setFurnCount(cartItem.getFurnCount() + 1);
         cartItem.setTotalFurnPrice(cartItem.getTotalFurnPrice().add(furniture.getPrice()));
-
         // 将购物车重新放进session
+        System.out.println(cart.getTotalCount());
         session.setAttribute("cart", cart);
-        response.sendRedirect(request.getHeader("Referer"));
+        System.out.println(cart);
+
+        // 将购物车数目转成json数据，返回给ajax
+        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
+        stringIntegerHashMap.put("orderTotalCount",cart.getTotalCount());
+        Gson gson = new Gson();
+        String json = gson.toJson(stringIntegerHashMap);
+        writer.write(json);
+
+
+//        response.sendRedirect(request.getHeader("Referer"));
 
 
     }

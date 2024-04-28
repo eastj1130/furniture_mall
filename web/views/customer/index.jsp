@@ -13,9 +13,31 @@
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css"/>
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
     <link rel="stylesheet" href="assets/css/style.min.css">
-    <script>
-        document.addEventListener("DOMContentLoaded",function (){
-            <%--alert("${furniturePage.items}")--%>
+    <script src="script/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function (){
+            <%--<a href="cartServlet?action=addCart&furnId=${furniture.id}">Add To Cart</a>--%>
+
+            $(".a-add-to-cart").click(function (){
+                $.ajax({
+                    url:"cartServlet",
+                    data:{
+                        action:"addCart",
+                        furnId:this.previousElementSibling.value,
+                    },
+                    type:"get",
+                    dataType:"json",
+                    async:true,
+                    success(res,status,xhr){
+                        if(xhr.readyState===4&&xhr.status===200) {
+                            if (res) {
+                                console.log(res)
+                                $(".header-action-num").text(res.orderTotalCount)
+                            }
+                        }
+                    }
+                })
+            })
         })
     </script>
 </head>
@@ -152,7 +174,9 @@
                                                         class="icon-size-fullscreen"></i></a>
                                             </div>
                                             <button title="Add To Cart~" class=" add-to-cart">
-                                                <a href="cartServlet?action=addCart&furnId=${furniture.id}">Add To Cart</a>
+                                                <input type="hidden" name="furnId" value="${furniture.id}">
+                                                <%--<a href="cartServlet?action=addCart&furnId=${furniture.id}">Add To Cart</a>--%>
+                                                <a class="a-add-to-cart">Add To Cart</a>
 
                                             </button>
                                         </div>
@@ -285,10 +309,10 @@
                                     <ul class="align-items-center">
                                         <li class="li"><a class="single-link" href="my-account.html">我的账号</a>
                                         </li>
-                                        <li class="li"><a class="single-link" href="../cart/cart.jsp">我的购物车</a></li>
+                                        <li class="li"><a class="single-link" href="cart/cart.jsp">我的购物车</a></li>
                                         <li class="li"><a class="single-link" href="login.html">登录</a></li>
                                         <li class="li"><a class="single-link" href="wishlist.html">感兴趣的</a></li>
-                                        <li class="li"><a class="single-link" href="../order/checkout.jsp">结账</a></li>
+                                        <li class="li"><a class="single-link" href="order/checkout.jsp">结账</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -348,7 +372,7 @@
                                     <img class="img-responsive m-auto" src="assets/images/product-image/4.jpg" alt="">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img class="img-responsive m-auto" src="../../assets/images/product-image/5.jpg" alt="">
+                                    <img class="img-responsive m-auto" src="assets/images/product-image/5.jpg" alt="">
                                 </div>
                             </div>
                         </div>
