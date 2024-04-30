@@ -13,6 +13,7 @@
 <body>
 <form action="/mall/fileUploadServlet" method="post"enctype="multipart/form-data">
     请选择图片：<input type="file" name="imgName"><br>
+    <input type="text" name="username" value="dafdfs">
     <button>提交</button>
 
 </form>

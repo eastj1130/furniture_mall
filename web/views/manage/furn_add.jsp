@@ -99,7 +99,7 @@
         <h3 class="cart-page-title">家居后台管理-添加家居</h3>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                <form action="manager/furnitureServlet" method="post">
+                <form action="manager/furnitureServlet" method="post" enctype="multipart/form-data">
                     <div class="table-content table-responsive cart-table-content">
                         <table>
                             <thead>
@@ -116,10 +116,16 @@
                             <tbody>
                             <tr>
                                 <td class="product-thumbnail">
-                                    <a href="#"><img class="img-responsive ml-3"
-                                                     src="assets/images/product-image/default.jpg"
-                                                     alt=""/></a>
+
+                                    <a>
+                                        <%--<img class="img-responsive ml-3"--%>
+                                        <%--             src="assets/images/product-image/default.jpg"--%>
+                                        <%--             alt=""/>--%>
+                                            <input type="file" name="imgFile">
+                                    </a>
+
                                 </td>
+
                                 <input type="hidden" name="pageNo" value="${param.pageNo}">
                                 <input type="hidden" name="action" value="addFurniture">
                                 <input name="imgPath" type="hidden" value="assets/images/product-image/default.jpg"/>

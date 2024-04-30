@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class FIleUploadServlet extends HttpServlet {
         DiskFileItemFactory diskFileItemFactory = builder.get();
         JakartaServletDiskFileUpload fileUpload = new JakartaServletDiskFileUpload(diskFileItemFactory);
         List<DiskFileItem> itemList = fileUpload.parseRequest(request);
-        System.out.println("niao");
         ServletContext servletContext = request.getServletContext();
         for (DiskFileItem diskFileItem : itemList) {
             if (!diskFileItem.isFormField()){
@@ -40,6 +40,10 @@ public class FIleUploadServlet extends HttpServlet {
                 File file1 = new File(fileFullPath);
                 System.out.println(fileFullPath);
                 diskFileItem.write(file1.toPath());
+            }else {
+                if ("username".equals(diskFileItem.getFieldName())){
+                    System.out.println(diskFileItem.getString(Charset.forName("utf-8")));
+                }
             }
         }
 
