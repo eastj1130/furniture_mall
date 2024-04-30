@@ -4,32 +4,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title>韩顺平教育-家居网购~</title>
     <base href="http://localhost:8080/mall/">
 
     <!-- 移动端适配 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css"/>
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
     <link rel="stylesheet" href="assets/css/style.min.css">
     <script src="script/jquery-3.6.0.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-        $(function (){
+        $(function () {
             <%--<a href="cartServlet?action=addCart&furnId=${furniture.id}">Add To Cart</a>--%>
 
-            $(".a-add-to-cart").click(function (){
+            $(".a-add-to-cart").click(function () {
                 $.ajax({
-                    url:"cartServlet",
-                    data:{
-                        action:"addCart",
-                        furnId:this.previousElementSibling.value,
+                    url: "cartServlet",
+                    data: {
+                        action: "addCart",
+                        furnId: this.previousElementSibling.value,
                     },
-                    type:"get",
-                    dataType:"json",
-                    async:true,
-                    success(res,status,xhr){
-                        if(xhr.readyState===4&&xhr.status===200) {
+                    type: "get",
+                    dataType: "json",
+                    async: true,
+                    success(res, status, xhr) {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
                             if (res) {
                                 console.log(res)
                                 $(".header-action-num").text(res.orderTotalCount)
@@ -69,7 +69,8 @@
                                     <input type="hidden" name="action" value="searchFurnitureByName">
                                     <input type="hidden" name="pageNo" value="1">
                                     <input type="hidden" name="pageSize" value="4">
-                                    <input class="form-control" placeholder="Enter your search key" name="name" type="text">
+                                    <input class="form-control" placeholder="Enter your search key" name="name"
+                                           type="text">
                                     <button class="submit" type="submit"><i class="icon-magnifier"></i></button>
                                 </form>
                             </div>
@@ -92,14 +93,13 @@
                             <c:if test="${sessionScope.member!=null}">
                                 <a href="memberServlet?action=logout">安全退出</a>
                             </c:if>
-
                         </div>
                         <!-- Single Wedge End -->
 
-                            <a href="views/cart/cart.jsp"
-                               class="header-action-btn header-action-btn-cart pr-0">
-                                <i class="icon-handbag"> 购物车</i>
-                                <span class="header-action-num">
+                        <a href="views/cart/cart.jsp"
+                           class="header-action-btn header-action-btn-cart pr-0">
+                            <i class="icon-handbag"> 购物车</i>
+                            <span class="header-action-num">
                                     <c:if test="${empty sessionScope.cart}">
                                         0
                                     </c:if>
@@ -107,7 +107,7 @@
                                         ${cart.totalCount}
                                     </c:if>
                                 </span>
-                            </a>
+                        </a>
                         <a href="#offcanvas-mobile-menu"
                            class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
                             <i class="icon-menu"></i>
@@ -126,7 +126,7 @@
                 <!-- Header Logo Start -->
                 <div class="col-auto align-self-center">
                     <div class="header-logo">
-                        <a href="index.html"><img width="280px" src="assets/images/logo/logo.png" alt="Site Logo" /></a>
+                        <a href="index.html"><img width="280px" src="assets/images/logo/logo.png" alt="Site Logo"/></a>
                     </div>
                 </div>
                 <!-- Header Logo End -->
@@ -156,7 +156,8 @@
                     <div class="tab-pane fade show active" id="tab-product-new-arrivals">
                         <div class="row">
                             <c:forEach items="${furniturePage.items}" var="furniture">
-                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 " data-aos="fade-up" data-aos-delay="800">
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 " data-aos="fade-up"
+                                     data-aos-delay="800">
                                     <!-- Single Prodect -->
                                     <div class="product">
                                         <div class="thumb">
@@ -170,12 +171,13 @@
                                             </span>
                                             <div class="actions">
                                                 <a href="#" class="action wishlist" data-link-action="quickview"
-                                                   title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                                   title="Quick view" data-bs-toggle="modal"
+                                                   data-bs-target="#exampleModal"><i
                                                         class="icon-size-fullscreen"></i></a>
                                             </div>
                                             <button title="Add To Cart~" class=" add-to-cart">
                                                 <input type="hidden" name="furnId" value="${furniture.id}">
-                                                <%--<a href="cartServlet?action=addCart&furnId=${furniture.id}">Add To Cart</a>--%>
+                                                    <%--<a href="cartServlet?action=addCart&furnId=${furniture.id}">Add To Cart</a>--%>
                                                 <a class="a-add-to-cart">Add To Cart</a>
 
                                             </button>
@@ -221,9 +223,32 @@
                 <a href="${furniturePage.url}&pageNo=${furniturePage.pageNo-1}&pageSize=4">上页</a>
             </li>
         </c:if>
-        <c:set var="pageNo" value="${furniturePage.pageNo}"/>
-        <c:set var="totalPage" value="${furniturePage.totalPage}"/>
-        <c:forEach begin="1" end="${totalPage}" var="i">
+
+        <c:choose>
+            <c:when test="${furniturePage.totalPage>5}">
+                <c:choose>
+                    <c:when test="${furniturePage.pageNo<=3}">
+                        <c:set var="beginPage" value="1"/>
+                        <c:set var="endPage" value="5"/>
+                    </c:when>
+                    <c:when test="${(furniturePage.totalPage-furniturePage.pageNo)<3}">
+                        <c:set var="beginPage" value="${furniturePage.totalPage-4}"/>
+                        <c:set var="endPage" value="${furniturePage.totalPage}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="beginPage" value="${furniturePage.pageNo-2}"/>
+                        <c:set var="endPage" value="${furniturePage.pageNo+2}"/>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+            <c:otherwise>
+                <c:set var="beginPage" value="1"/>
+                <c:set var="endPage" value="${furniturePage.totalPage}"/>
+            </c:otherwise>
+        </c:choose>
+
+
+        <c:forEach begin="${beginPage}" end="${endPage}" var="i">
             <c:if test="${furniturePage.pageNo==i}">
                 <li><a class="active"
                        href="${furniturePage.url}&pageNo=${i}&pageSize=4">${i}</a>
@@ -240,7 +265,7 @@
             </li>
         </c:if>
 
-        <li><a href="${furniturePage.url}&pageNo=${totalPage}&pageSize=4">末页</a></li>
+        <li><a href="${furniturePage.url}&pageNo=${furniturePage.totalPage}&pageSize=4">末页</a></li>
         <li><a>共${furniturePage.totalPage}页</a></li>
         <li><a>共${furniturePage.totalItems}记录</a></li>
     </ul>
@@ -291,7 +316,8 @@
                                     <ul class="align-items-center">
                                         <li class="li"><a class="single-link" href="about.html">关于我们</a></li>
                                         <li class="li"><a class="single-link" href="#">交货信息</a></li>
-                                        <li class="li"><a class="single-link" href="privacy-policy.html">隐私与政策</a></li>
+                                        <li class="li"><a class="single-link" href="privacy-policy.html">隐私与政策</a>
+                                        </li>
                                         <li class="li"><a class="single-link" href="#">条款和条件</a></li>
                                         <li class="li"><a class="single-link" href="#">制造</a></li>
                                     </ul>

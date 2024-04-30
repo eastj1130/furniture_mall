@@ -12,16 +12,6 @@
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
     <link rel="stylesheet" href="assets/css/style.min.css">
     <script type="text/javascript">
-        // <td class="product-name"><input name="name" style="width: 60%" type="text" value="Name"/></td>
-        // <td class="product-name"><input name="maker" style="width: 90%" type="text" value="蚂蚁家居"/></td>
-        // <td class="product-price-cart"><input name="price" style="width: 90%" type="text" value="60.00"/></td>
-        // <td class="product-quantity">
-        //     <input name="sales" style="width: 90%" type="text" value="100"/>
-        // </td>
-        // <td class="product-quantity">
-        //     <input name="stock" style="width: 90%" type="text" value="80"/>
-        // </td>
-        // <td>
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("submitAdd").addEventListener("click", function (event) {
                 let price = document.querySelector("input[name='price']").value;
@@ -99,7 +89,7 @@
         <h3 class="cart-page-title">家居后台管理-添加家居</h3>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                <form action="manager/furnitureServlet" method="post" enctype="multipart/form-data">
+                <form action="manager/furnitureServlet?action=addFurniture" method="post" enctype="multipart/form-data">
                     <div class="table-content table-responsive cart-table-content">
                         <table>
                             <thead>

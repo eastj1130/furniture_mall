@@ -34,7 +34,7 @@ public class FurnitureDaoImpl extends BasicDao<Furniture> implements FurnitureDa
 
     @Override
     public Furniture querySingleFurnitureById(int id) {
-        String sql = "select id,name,maker,price,sales,stock,img_path from furniture where id = ?";
+        String sql = "select id,name,maker,price,sales,stock,img_path as imgPath from furniture where id = ?";
         return querySingle(sql, Furniture.class, id);
     }
 

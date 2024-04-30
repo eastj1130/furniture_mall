@@ -55,12 +55,9 @@ public class OrderServlet extends BasicServlet {
                         response.sendRedirect(request.getContextPath() + "/index.jsp");
                     }
                 }
-                System.out.println("线程名："+Thread.currentThread().getName()+"----连接名："+JdbcUtilsByDruid.connectionThreadLocal.get().hashCode());
-                System.out.println(JdbcUtilsByDruid.connectionThreadLocal.get().hashCode());
                 JdbcUtilsByDruid.commit();
-                System.out.println(JdbcUtilsByDruid.connectionThreadLocal.get());
 
-                response.sendRedirect(request.getContextPath() + "/customer/orderServlet?action=orderList");
+                response.sendRedirect(request.getContextPath() + "/views/order/checkout.jsp?orderId="+orderId);
             } else {
                 System.out.println("生成订单失败");
                 session.setAttribute("generateOrderMsg","库存不足");
@@ -75,9 +72,6 @@ public class OrderServlet extends BasicServlet {
     }
 
     protected void orderList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-
         HttpSession session = request.getSession();
         Member member = (Member)session.getAttribute("member");
         Integer memberId = member.getId();

@@ -50,11 +50,6 @@ public class FurnitureServlet extends BasicServlet {
 
     public void addFurniture(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DiskFileItemFactory.Builder builder = new DiskFileItemFactory.Builder();
-        DiskFileItemFactory diskFileItemFactory = builder.get();
-        JakartaServletDiskFileUpload fileUpload = new JakartaServletDiskFileUpload(diskFileItemFactory);
-        List<DiskFileItem> itemList = fileUpload.parseRequest(request);
-        ServletContext servletContext = request.getServletContext();
         int pageNo = 1;
         String name = "";
         String maker = "";
@@ -62,20 +57,33 @@ public class FurnitureServlet extends BasicServlet {
         int sales = 0;
         int stock = 0;
         String fileFullPath = "";
+        String fileWebPath = "";
+
+        DiskFileItemFactory.Builder builder = new DiskFileItemFactory.Builder();
+        DiskFileItemFactory diskFileItemFactory = builder.get();
+        JakartaServletDiskFileUpload fileUpload = new JakartaServletDiskFileUpload(diskFileItemFactory);
+        // 解析 request
+        List<DiskFileItem> itemList = fileUpload.parseRequest(request);
+        ServletContext servletContext = request.getServletContext();
         fileUpload.setHeaderCharset(Charset.forName("utf-8"));
+        //遍历 得到的 请求参数集合
         for (DiskFileItem diskFileItem : itemList) {
+            // 处理文件数据
             if (!diskFileItem.isFormField()) {
                 String fileName = new Date().getTime() + diskFileItem.getName();
-                String fileDir = servletContext.getRealPath("/") + "upload/" + DateUtil.getDate();
+                String dateDir = DateUtil.getDate();
+                String fileDir = servletContext.getRealPath("/") + "upload/" + dateDir;
                 File file = new File(fileDir);
                 if (!file.exists()) {
                     file.mkdirs();
                 }
                 fileFullPath = fileDir + "/" + fileName;
+                fileWebPath = "upload/"+dateDir+"/"+fileName;
                 File file1 = new File(fileFullPath);
                 System.out.println(fileFullPath);
                 diskFileItem.write(file1.toPath());
             } else {
+                // 表单数据
                 if ("pageNo".equals(diskFileItem.getFieldName())) {
                     pageNo = DataUtils.parseInt(diskFileItem.getString(Charset.forName("utf-8")), 1);
                 } else if ("name".equals(diskFileItem.getFieldName())) {
@@ -91,16 +99,9 @@ public class FurnitureServlet extends BasicServlet {
                 }
             }
         }
-        // 处理路径字符串
-        String[] split = fileFullPath.split("/");
-        String[] strings = Arrays.copyOfRange(split, 10, split.length);
-        StringBuilder stringBuilder = new StringBuilder(fileFullPath);
-        for (String string : strings) {
-            stringBuilder.append(string + "/");
-        }
-        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("/"));
-        // 处理字符串完毕
-        Furniture furniture = new Furniture(null, name, maker, price, sales, stock, stringBuilder.toString());
+
+
+        Furniture furniture = new Furniture(null, name, maker, price, sales, stock, fileWebPath);
         furnitureService.addFurniture(furniture);
         response.sendRedirect(request.getContextPath() +
                 "/manager/furnitureServlet?action=singlePage&pageSize=3&pageNo=" + pageNo);
@@ -112,7 +113,6 @@ public class FurnitureServlet extends BasicServlet {
         Integer id = DataUtils.parseInt(request.getParameter("id"), 0);
         int pageNo = DataUtils.parseInt(request.getParameter("pageNo"), 1);
         furnitureService.deleteFurnitureById(id);
-//        response.sendRedirect(request.getContextPath() + "/manager/furnitureServlet?action=showFurnitureList");
         response.sendRedirect(request.getContextPath() +
                 "/manager/furnitureServlet?action=singlePage&pageSize=3&pageNo=" + pageNo);
 
@@ -134,6 +134,9 @@ public class FurnitureServlet extends BasicServlet {
         int id = DataUtils.parseInt(request.getParameter("id"), 0);
         Furniture furniture = new Furniture();
         int pageNo = DataUtils.parseInt(request.getParameter("pageNo"), 1);
+
+
+
         DataUtils.copyParametersToBean(furniture, request.getParameterMap());
         furnitureService.updateSingleFurnitureById(furniture, id);
         response.sendRedirect(request.getContextPath() +

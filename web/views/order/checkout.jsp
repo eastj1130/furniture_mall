@@ -33,13 +33,23 @@
                 <div class="col align-self-center">
                     <div class="header-actions">
                         <div class="header-bottom-set dropdown">
-                            <a>欢迎: hello</a>
+                            <c:if test="${sessionScope.member!=null}">
+                                <a> 欢迎：${sessionScope.member.username}</a>
+                            </c:if>
+                            <c:if test="${sessionScope.member==null}">
+                                <a href="views/member/login.jsp">登录|注册</a>
+                            </c:if>
                         </div>
                         <div class="header-bottom-set dropdown">
-                            <a href="#">订单管理</a>
+                            <c:if test="${not empty sessionScope.member}">
+                                <a href="customer/orderServlet?action=orderList">订单管理</a>
+                            </c:if>
                         </div>
                         <div class="header-bottom-set dropdown">
-                            <a href="memberServlet?action=logout">安全退出</a>
+                            <c:if test="${sessionScope.member!=null}">
+                                <a href="memberServlet?action=logout">安全退出</a>
+                            </c:if>
+
                         </div>
                     </div>
                 </div>
@@ -75,7 +85,7 @@
                 <div class="login-register-wrapper">
                     <div class="login-register-tab-list nav">
                         <a class="active" href="index.jsp">
-                            <h4>订单已结算, 订单号-hello</h4>
+                            <h4>订单已生成, 订单号-<%=request.getParameter("orderId")%></h4>
                         </a>
                     </div>
                 </div>

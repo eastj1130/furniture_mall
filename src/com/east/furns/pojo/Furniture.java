@@ -3,17 +3,6 @@ package com.east.furns.pojo;
 import java.math.BigDecimal;
 
 public class Furniture {
-    /*
-    CREATE TABLE `furniture`(
-`id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, #id
-`name` VARCHAR(64) NOT NULL, #家居名
-`maker` VARCHAR(64) NOT NULL, #制造商
-`price` DECIMAL(11,2) NOT NULL , #价格 定点数
- `sales` INT UNSIGNED NOT NULL, #销量
-`stock` INT UNSIGNED NOT NULL, #库存
-`img_path` VARCHAR(256) NOT NULL #存放图片的路径 )CHARSET utf8 ENGINE INNODB
-)CHARSET utf8 ENGINE INNODB
-     */
     private Integer id;
     private String name;
     private String maker;

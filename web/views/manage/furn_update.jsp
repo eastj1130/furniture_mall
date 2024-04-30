@@ -88,7 +88,7 @@
                             <tbody>
                             <tr>
                                 <td class="product-thumbnail">
-                                    <a href="#"><img class="img-responsive ml-3" src="assets/images/product-image/default.jpg"
+                                    <a href="#"><img class="img-responsive ml-3" src="${furniture.imgPath}"
                                                      alt=""/></a>
                                 </td>
                                 <input type="hidden" name="action" value="updateFurniture">
